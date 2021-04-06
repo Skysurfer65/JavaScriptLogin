@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <script language="javascript">
+
+        function userCheck(form) {
+        if (form.id.value=="grupparbete") { 
+        if (form.pass.value=="grupp3") { 
+            document.getElementById("header").innerHTML = "Correct";
+
+        //location="page2.html" 
+        } else {
+        alert("Invalid Password")
+            location.reload()
+        }
+        } else {  alert("Invalid UserID")
+            location.reload()
+        }
+        }
+    
+        </script>
+        <br><br><br><br>
+        <center>
+        <table bgcolor="lightgray" cellpadding="12" border="6">
+        <tr><td colspan="2"><center><h1><i><b><p id="header">Login</p></b></i></h1></center></td></tr>
+        <tr><td><h1><i><b>UserID:</b></i></h1></td><td><form name="login"><input
+        name="id" type="text"></td></tr>
+        <tr><td><h1><i><b>Password:</b></i></h1></td><td><input name="pass"
+        type="password"></td></tr>
+        <tr><td><center><input type="button" value="Login"
+        onClick="userCheck(this.form)"></center></td><td><center><input
+        type="Reset" onClick="location.reload()"></form></td></tr></table></center> 
+    
+</body>
+</html>
