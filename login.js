@@ -33,7 +33,7 @@ class User{
     CheckUserInDB(){
         let i;
         for(i = 0; i < users.length; i++){
-            //UserID is case sensitive
+            //UserID not case sensitive
             if(users[i].userID.toLocaleUpperCase() === this.userID.toLocaleUpperCase())return true;
         }
         return false;
