@@ -16,54 +16,20 @@
         name="userID" type="text"></td></tr>
         <tr><td><h1><i><b>Password:</b></i></h1></td><td><input name="password"
         type="password"></td></tr>
-        <tr><td><center><input type="button" value="Login"
+        <tr><td><center><input id="actionButton" type="button" value="Login"
         onClick="Login(this.form)"></center></td><td><center><input
         type="Reset"></form></td></tr></table></center>
+        <br><br>
+        <center><input id="createOrLogin" type="button" value="Create Account" onclick="CreateAccount()"></center>
         <center><p id="output1"></p></center>
         <center><p id="output2"></p></center> 
 
     <script language="javascript">
-        //User object
-        var user;
         //Array for users
-        var users = [];        
-        //Add some user instances in users array
-        var user1 = new User("bax1" , "123");
-        user2 = new User("bax2" , "123");
-        user3 = new User("bax3" , "321");
-        user1.AddUserToUsers();
-        user2.AddUserToUsers();
-        user3.AddUserToUsers();
-        var strOutput = "";
-        for(var x in user1){
-        strOutput += x + ": " + user1[x] +"<br>";
-        }
-        document.write("<br>"+strOutput);
-        
-        
+        let users = [];
 
-
-
-        function Login(form) {
-            document.getElementById("output1").innerHTML = form.userID.value;
-            
-            userID = form.userID.value;
-            password = form.password.value;
-            
-            var user = new User(userID, password);
-            document.write("<br>"+strOutput);
-            user.AddUserToUsers();
-            
-            if(user.CheckUserInDB()){
-                //Check password
-                if(user.CheckPassword){
-                   document.getElementById("output1").innerHTML = "CORRECT<br>You're logged in";
-                } else alert("Invalid password");
-            } else alert("Invalid user ID");
-           
-        }
-
-
+        //Boolean for create account
+        var createAccount = false;
 
         //User class
         class User{
@@ -122,7 +88,82 @@
             AddUserToUsers(){
                 users.push(new User(this.userID, this.password));
             }      
+        }       
+        //Add some user instances in users array to test
+        //users.push(new User("bax1" , "123"));
+        //users.push(new User("bax2" , "123"));
+        //users.push(new User("bax3" , "321"));
+             
+        function Login(form) {
+            //document.getElementById("output1").innerHTML = form.userID.value;
+            //document.getElementById("output2").innerHTML = form.password.value;
+            
+            let user = new User(form.userID.value, form.password.value);
+
+            if(createAccount){
+                if(!user.CheckUserInDB() && user.ValidateUserID() && user.ValidatePassword()){
+                //Add to user ArrayList
+                user.AddUserToUsers();
+                } else alert(Errors(1));
+
+            } else {
+                if(user.CheckUserInDB()){
+                    //Check password
+                    if(user.CheckPassword){
+                    document.getElementById("output1").innerHTML = "CORRECT<br>You're logged in";
+                    } else alert(Errors(3));
+                } else alert(Errors(2));                
+            }
+            
+  
         }
+        function CreateAccount(){
+            createAccount = true;
+            document.getElementById("header").innerHTML = "Create Account";
+            document.getElementById("actionButton").value = "CREATE";
+            //document.getElementById("createOrLogin").value = "Go To Login";
+            //document.getElementById("createOrLogin").onclick = "SetupForLogin()";
+
+
+        }
+        function SetupForLogin(){
+
+        }
+
+        function Errors(x){
+            let text = "";
+            if(x == 1){
+                text = "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
+                text+= "                                  ERROR                             \n";
+                text+= " Prerequisites:                                                     \n";
+                text+= " User ID has to be unique and consist of minimum 4 characters, only \n";
+                text+= " letters  and numbers and at least one of each, user ID is not case \n";
+                text+= " sensitive, no empty spaces are allowed.                            \n";
+                text+= "                                                                    \n";
+                text+= " Password has to have a minimum of 4 characters and consist of at   \n";
+                text+= " least one letter, one number and one special character. Passwords  \n";
+                text+= " are case sensitive and need to consist of both upper and lower     \n";
+                text+= " case letters.                                                      \n";
+                text+= "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";                  
+            }
+            else if(x == 2){
+                text = "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
+                text+= "                                 ERROR                              \n";
+                text+= " User ID not in database, check your typing, you have               \n";
+                text+= " three attempts.                                                    \n";
+                text+= "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"; 
+            }
+            else if(x == 3){
+                text = "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
+                text+= "                                 ERROR                              \n";
+                text+= " Password not in database, check your typing, you have              \n";
+                text+= " three attempts.                                                    \n";
+                text+= "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"; 
+            }
+            return text;
+        }
+
+
 
     /*
     //Check all three users and enter valid in array
