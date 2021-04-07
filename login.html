@@ -17,19 +17,26 @@
         <tr><td><h1><i><b>Password:</b></i></h1></td><td><input name="password"
         type="password"></td></tr>
         <tr><td><center><input id="actionButton" type="button" value="Login"
-        onClick="Login(this.form)"></center></td><td><center><input
+        onClick="Login(this.form)"></center></td><td><center><input id="reset"
         type="Reset"></form></td></tr></table></center>
         <br><br>
-        <center><input id="createOrLogin" type="button" value="Create Account" onclick="CreateAccount()"></center>
-        <center><p id="output1"></p></center>
-        <center><p id="output2"></p></center> 
+        <center><input id="createOrLogin" type="button" value="Create Account"></center>
+        <center><h2 id="output1"></h2></center>
+        <center><p id="output2"></p></center>
+        <center><p id="output3"></p></center> 
 
     <script language="javascript">
         //Array for users
         let users = [];
 
         //Boolean for create account
-        var createAccount = false;
+        let createAccount = false;
+        //Variable for button createOrLogin
+        let createOrLogin = document.getElementById("createOrLogin");
+        createOrLogin.onclick = CreateAccount;
+        //Variable for reset button
+        let reset = document.getElementById("reset");
+        reset.onclick = ResetSucces;
 
         //User class
         class User{
@@ -117,12 +124,13 @@
             
   
         }
+
         function CreateAccount(){
             createAccount = true;
             document.getElementById("header").innerHTML = "Create Account";
             document.getElementById("actionButton").value = "CREATE";
             document.getElementById("createOrLogin").value = "Go To Login";
-            document.getElementById("createOrLogin").onclick = function SetupForLogin(){};
+            createOrLogin.onclick = SetupForLogin;
 
 
         }
@@ -131,7 +139,10 @@
             document.getElementById("header").innerHTML = "Login";
             document.getElementById("actionButton").value = "Login";
             document.getElementById("createOrLogin").value = "Create Account";
-
+            createOrLogin.onclick = CreateAccount;
+        }
+        function ResetSucces(){
+            document.getElementById("output1").innerHTML = "";
         }
 
         function Errors(x){
