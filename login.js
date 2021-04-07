@@ -40,7 +40,15 @@ class User{
     }
 
     CheckPassword(){
-        return true;
+        let i;
+        for(i = 0; i < users.length; i++){
+            //Check password to correct userID, not case sensitive
+            if(users[i].userID.toLocaleUpperCase() === this.userID.toLocaleUpperCase()){
+                //Password is case sensitive
+                if(users[i].password === this.password)return true;
+            }
+        }
+        return false;
     }
 
     AddUserToUsers(){
@@ -51,7 +59,7 @@ class User{
 //Try with a few instances of user
 user1 = new User("bax1" , "123");
 user2 = new User("bax2" , "123");
-user3 = new User("Bax1" , "321");
+user3 = new User("bax3" , "321");
 
 //Check all three users and enter valid in array
 if(!user1.CheckUserInDB() && user1.ValidateUserID() && user1.ValidatePassword()){
@@ -70,4 +78,5 @@ if(!user3.CheckUserInDB() && user3.ValidateUserID() && user3.ValidatePassword())
 } else console.log("Error user3");
 //Print array
 console.log(users);
+console.log(new User("bax3", "321").CheckPassword());
 

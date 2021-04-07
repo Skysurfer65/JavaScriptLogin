@@ -7,8 +7,144 @@
     <title>Login</title>
 </head>
 <body>
-    <script language="javascript">
+        <!--GUI login (form)-->
+        <br><br><br><br>
+        <center>
+        <table bgcolor="lightgray" cellpadding="12" border="6">
+        <tr><td colspan="2"><center><h1><i><b><p id="header">Login</p></b></i></h1></center></td></tr>
+        <tr><td><h1><i><b>UserID:</b></i></h1></td><td><form name="login"><input
+        name="userID" type="text"></td></tr>
+        <tr><td><h1><i><b>Password:</b></i></h1></td><td><input name="password"
+        type="password"></td></tr>
+        <tr><td><center><input type="button" value="Login"
+        onClick="Login(this.form)"></center></td><td><center><input
+        type="Reset"></form></td></tr></table></center>
+        <center><p id="output1"></p></center>
+        <center><p id="output2"></p></center> 
 
+    <script language="javascript">
+        //User object
+        var user;
+        //Array for users
+        var users = [];        
+        //Add some user instances in users array
+        var user1 = new User("bax1" , "123");
+        user2 = new User("bax2" , "123");
+        user3 = new User("bax3" , "321");
+        user1.AddUserToUsers();
+        user2.AddUserToUsers();
+        user3.AddUserToUsers();
+        var strOutput = "";
+        for(var x in user1){
+        strOutput += x + ": " + user1[x] +"<br>";
+        }
+        document.write("<br>"+strOutput);
+        
+        
+
+
+
+        function Login(form) {
+            document.getElementById("output1").innerHTML = form.userID.value;
+            
+            userID = form.userID.value;
+            password = form.password.value;
+            
+            var user = new User(userID, password);
+            document.write("<br>"+strOutput);
+            user.AddUserToUsers();
+            
+            if(user.CheckUserInDB()){
+                //Check password
+                if(user.CheckPassword){
+                   document.getElementById("output1").innerHTML = "CORRECT<br>You're logged in";
+                } else alert("Invalid password");
+            } else alert("Invalid user ID");
+           
+        }
+
+
+
+        //User class
+        class User{
+            //Constructor   
+            constructor(userID, password){
+                this.userID = userID;
+                this.password = password;
+            }
+
+            //Methods
+            ValidateUserID() {
+                let letter = false, number = false;
+                let specialCharacters = " !#$%&'()*+,-./:;<=>?@[]^_`{|}";
+                let numbers = "1234567890";
+            
+            
+                if(this.userID == null)return false;
+                if(this.userID.isEmpty)return false;
+                if(this.userID.length < 4)return false;
+            
+
+                for (let i = 0; i < this.userID.length; i++) {
+                    if(specialCharacters.indexOf(this.userID[i]) > -1)return false;
+                    else if(numbers.indexOf(this.userID[i]) > -1) number = true;
+                    else letter = true;         
+                }
+
+                return (letter && number);
+            }
+
+            ValidatePassword(){
+                return true;
+            }
+
+            CheckUserInDB(){
+                let i;
+                for(i = 0; i < users.length; i++){
+                    //UserID not case sensitive
+                    if(users[i].userID.toLocaleUpperCase() === this.userID.toLocaleUpperCase())return true;
+                }
+                return false;
+            }
+
+            CheckPassword(){
+                let i;
+                for(i = 0; i < users.length; i++){
+                    //Check password to correct userID, not case sensitive
+                    if(users[i].userID.toLocaleUpperCase() === this.userID.toLocaleUpperCase()){
+                        //Password is case sensitive
+                        if(users[i].password === this.password)return true;
+                    }
+                }
+                return false;
+            }
+
+            AddUserToUsers(){
+                users.push(new User(this.userID, this.password));
+            }      
+        }
+
+    /*
+    //Check all three users and enter valid in array
+    if(!user1.CheckUserInDB() && user1.ValidateUserID() && user1.ValidatePassword()){
+        //Add to user ArrayList
+        user1.AddUserToUsers();
+    } else console.log("Error user1");
+
+    if(!user2.CheckUserInDB() && user2.ValidateUserID() && user2.ValidatePassword()){
+        //Add to user ArrayList
+        user2.AddUserToUsers();
+    } else console.log("Error user2");
+
+    if(!user3.CheckUserInDB() && user3.ValidateUserID() && user3.ValidatePassword()){
+        //Add to user ArrayList
+        user3.AddUserToUsers();
+    } else console.log("Error user3");
+    //Print array
+    console.log(users);
+    */
+
+        /*
         function userCheck(form) {
         if (form.id.value=="grupparbete") { 
         if (form.pass.value=="grupp3") { 
@@ -23,19 +159,9 @@
             location.reload()
         }
         }
-    
+        */
         </script>
-        <br><br><br><br>
-        <center>
-        <table bgcolor="lightgray" cellpadding="12" border="6">
-        <tr><td colspan="2"><center><h1><i><b><p id="header">Login</p></b></i></h1></center></td></tr>
-        <tr><td><h1><i><b>UserID:</b></i></h1></td><td><form name="login"><input
-        name="id" type="text"></td></tr>
-        <tr><td><h1><i><b>Password:</b></i></h1></td><td><input name="pass"
-        type="password"></td></tr>
-        <tr><td><center><input type="button" value="Login"
-        onClick="userCheck(login)"></center></td><td><center><input
-        type="Reset" onClick="location.reload()"></form></td></tr></table></center> 
+
     
 </body>
 </html>
