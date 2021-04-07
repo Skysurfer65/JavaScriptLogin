@@ -121,12 +121,16 @@
             createAccount = true;
             document.getElementById("header").innerHTML = "Create Account";
             document.getElementById("actionButton").value = "CREATE";
-            //document.getElementById("createOrLogin").value = "Go To Login";
-            //document.getElementById("createOrLogin").onclick = "SetupForLogin()";
+            document.getElementById("createOrLogin").value = "Go To Login";
+            document.getElementById("createOrLogin").onclick = function SetupForLogin(){};
 
 
         }
         function SetupForLogin(){
+            createAccount = false;
+            document.getElementById("header").innerHTML = "Login";
+            document.getElementById("actionButton").value = "Login";
+            document.getElementById("createOrLogin").value = "Create Account";
 
         }
 
