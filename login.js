@@ -27,7 +27,28 @@ class User{
     }
 
     ValidatePassword(){
-        return true;
+        let specialChar = false, number = false, letter = false, upperCase = false;
+        let specialCharacters = "!#$%&'()*+,-./:;<=>?@[]^_`{|}";
+        let emptySpace = " ";
+        let numbers = "1234567890";
+        let capitalLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ";
+          
+        //Check if password is empty
+        if(this.password == null)return false;
+        if(this.password.isEmpty)return false;
+        //Check size, at least 4 characters and a maximum om 16 characters
+        if(this.password.length < 4 || this.password.length > 16) return false;
+       
+        //Check for no empty space but at least one letter, one number and one special character
+        for (let i = 0; i < this.password.length; i++) {
+            if(emptySpace.indexOf(this.password[i]) > -1)return false;
+            else if(specialCharacters.indexOf(this.password[i]) > -1) specialChar = true;
+            else if (numbers.indexOf(this.password[i]) > -1) number = true;
+            else if (capitalLetters.indexOf(this.password[i]) > -1) upperCase = true;
+            else letter = true;
+        }  
+        //returns true if all the criteria is there
+        return(specialChar && number && upperCase && letter);
     }
 
     CheckUserInDB(){
@@ -57,9 +78,9 @@ class User{
     
 }
 //Try with a few instances of user
-user1 = new User("bax1" , "123");
-user2 = new User("bax2" , "123");
-user3 = new User("bax3" , "321");
+user1 = new User("bax1" , "123Bax#");
+user2 = new User("bax2" , "123Bax#");
+user3 = new User("bax3" , "123Bax #");
 
 //Check all three users and enter valid in array
 if(!user1.CheckUserInDB() && user1.ValidateUserID() && user1.ValidatePassword()){
@@ -78,5 +99,5 @@ if(!user3.CheckUserInDB() && user3.ValidateUserID() && user3.ValidatePassword())
 } else console.log("Error user3");
 //Print array
 console.log(users);
-console.log(new User("bax3", "321").CheckPassword());
+console.log(new User("Bax2", "123Bax#").CheckPassword());
 

@@ -52,23 +52,45 @@
                 let specialCharacters = " !#$%&'()*+,-./:;<=>?@[]^_`{|}";
                 let numbers = "1234567890";
             
-            
+                //Check if userID empty
                 if(this.userID == null)return false;
                 if(this.userID.isEmpty)return false;
+                //Check length of userID
                 if(this.userID.length < 4)return false;
             
-
+                //Check for no empty space or special char, at least one letter and one number
                 for (let i = 0; i < this.userID.length; i++) {
                     if(specialCharacters.indexOf(this.userID[i]) > -1)return false;
                     else if(numbers.indexOf(this.userID[i]) > -1) number = true;
                     else letter = true;         
                 }
-
+                //returns true if only letters and numbers
                 return (letter && number);
             }
 
             ValidatePassword(){
-                return true;
+                let specialChar = false, number = false, letter = false, upperCase = false;
+                let specialCharacters = "!#$%&'()*+,-./:;<=>?@[]^_`{|}";
+                let emptySpace = " ";
+                let numbers = "1234567890";
+                let capitalLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ";
+                
+                //Check if password is empty
+                if(this.password == null)return false;
+                if(this.password.isEmpty)return false;
+                //Check size, at least 4 characters and a maximum om 16 characters
+                if(this.password.length < 4 || this.password.length > 16) return false;
+            
+                //Check for no empty space but at least one letter, one number and one special character
+                for (let i = 0; i < this.password.length; i++) {
+                    if(emptySpace.indexOf(this.password[i]) > -1)return false;
+                    else if(specialCharacters.indexOf(this.password[i]) > -1) specialChar = true;
+                    else if (numbers.indexOf(this.password[i]) > -1) number = true;
+                    else if (capitalLetters.indexOf(this.password[i]) > -1) upperCase = true;
+                    else letter = true;
+                }  
+                //returns true if all the criteria is there
+                return(specialChar && number && upperCase && letter);
             }
 
             CheckUserInDB(){
@@ -110,7 +132,7 @@
             } else {
                 if(user.CheckUserInDB()){
                     //Check password
-                    if(user.CheckPassword){
+                    if(user.CheckPassword()){
                     document.getElementById("output1").innerHTML = "CORRECT<br>You're logged in";
                     document.getElementById("output2").innerHTML = "Reset to remove this message";
                     } else alert(Errors(3));
@@ -154,7 +176,7 @@
                 text+= " Password has to have a minimum of 4 characters and consist of at   \n";
                 text+= " least one letter, one number and one special character. Passwords  \n";
                 text+= " are case sensitive and need to consist of both upper and lower     \n";
-                text+= " case letters.                                                      \n";
+                text+= " case letters. Maximum 16 characters.                               \n";
                 text+= "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";                  
             }
             else if(x == 2){
