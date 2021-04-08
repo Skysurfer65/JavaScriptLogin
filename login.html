@@ -23,7 +23,7 @@
         <center><input id="createOrLogin" type="button" value="Create Account"></center>
         <center><h2 id="output1"></h2></center>
         <center><p id="output2"></p></center>
-        <center><p id="output3"></p></center> 
+
 
     <script language="javascript">
         //Array for users
@@ -96,15 +96,9 @@
                 users.push(new User(this.userID, this.password));
             }      
         }       
-        //Add some user instances in users array to test
-        //users.push(new User("bax1" , "123"));
-        //users.push(new User("bax2" , "123"));
-        //users.push(new User("bax3" , "321"));
              
         function Login(form) {
-            //document.getElementById("output1").innerHTML = form.userID.value;
-            //document.getElementById("output2").innerHTML = form.password.value;
-            
+            //Make object of User        
             let user = new User(form.userID.value, form.password.value);
 
             if(createAccount){
@@ -118,31 +112,33 @@
                     //Check password
                     if(user.CheckPassword){
                     document.getElementById("output1").innerHTML = "CORRECT<br>You're logged in";
+                    document.getElementById("output2").innerHTML = "Reset to remove this message";
                     } else alert(Errors(3));
                 } else alert(Errors(2));                
             }
-            
-  
         }
 
         function CreateAccount(){
             createAccount = true;
+            //Change GUI
             document.getElementById("header").innerHTML = "Create Account";
             document.getElementById("actionButton").value = "CREATE";
             document.getElementById("createOrLogin").value = "Go To Login";
-            createOrLogin.onclick = SetupForLogin;
-
-
+            createOrLogin.onclick = GoToLogin;
         }
-        function SetupForLogin(){
+
+        function GoToLogin(){
             createAccount = false;
+            //Change GUI
             document.getElementById("header").innerHTML = "Login";
             document.getElementById("actionButton").value = "Login";
             document.getElementById("createOrLogin").value = "Create Account";
             createOrLogin.onclick = CreateAccount;
         }
+
         function ResetSucces(){
             document.getElementById("output1").innerHTML = "";
+            document.getElementById("output2").innerHTML = "";
         }
 
         function Errors(x){
@@ -177,45 +173,6 @@
             }
             return text;
         }
-
-
-
-    /*
-    //Check all three users and enter valid in array
-    if(!user1.CheckUserInDB() && user1.ValidateUserID() && user1.ValidatePassword()){
-        //Add to user ArrayList
-        user1.AddUserToUsers();
-    } else console.log("Error user1");
-
-    if(!user2.CheckUserInDB() && user2.ValidateUserID() && user2.ValidatePassword()){
-        //Add to user ArrayList
-        user2.AddUserToUsers();
-    } else console.log("Error user2");
-
-    if(!user3.CheckUserInDB() && user3.ValidateUserID() && user3.ValidatePassword()){
-        //Add to user ArrayList
-        user3.AddUserToUsers();
-    } else console.log("Error user3");
-    //Print array
-    console.log(users);
-    */
-
-        /*
-        function userCheck(form) {
-        if (form.id.value=="grupparbete") { 
-        if (form.pass.value=="grupp3") { 
-            document.getElementById("header").innerHTML = "Correct";
-
-        //location="page2.html" 
-        } else {
-        alert("Invalid Password")
-            location.reload()
-        }
-        } else {  alert("Invalid UserID")
-            location.reload()
-        }
-        }
-        */
         </script>
 
     
