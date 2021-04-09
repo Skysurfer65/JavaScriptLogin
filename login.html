@@ -44,6 +44,8 @@
             constructor(userID, password){
                 this.userID = userID;
                 this.password = password;
+                //Variable to check login attempts
+                this.nrOfAttempts = 0;
             }
 
             //Methods
@@ -109,6 +111,16 @@
                     if(users[i].userID.toLocaleUpperCase() === this.userID.toLocaleUpperCase()){
                         //Password is case sensitive
                         if(users[i].password === this.password)return true;
+                        //If not correct pass set nrOfAttempts and check
+                        else{
+                            users[i].nrOfAttempts += 1;
+                            if(users[i].nrOfAttempts == 3){
+                                //Delete user from user array
+                                users.splice(i, 1);
+                                //Warning message
+                                alert(Errors(4));
+                            } else alert(Errors(3)); //Error wrong password
+                        }
                     }
                 }
                 return false;
@@ -135,7 +147,7 @@
                     if(user.CheckPassword()){
                     document.getElementById("output1").innerHTML = "CORRECT<br>You're logged in";
                     document.getElementById("output2").innerHTML = "Reset to remove this message";
-                    } else alert(Errors(3));
+                    } 
                 } else alert(Errors(2));                
             }
         }
@@ -191,6 +203,13 @@
                 text+= "                                 ERROR                              \n";
                 text+= " Password not in database, check your typing, you have              \n";
                 text+= " three attempts.                                                    \n";
+                text+= "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"; 
+            }
+            else if(x == 4){
+                text = "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
+                text+= "                                WARNING                             \n";
+                text+= " You have tried to reach this userID three times with invalid       \n";
+                text+= " password, this user vill be deleted. You may create new user.      \n";
                 text+= "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"; 
             }
             return text;
