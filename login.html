@@ -23,7 +23,7 @@
         <center><input id="createOrLogin" type="button" value="Create Account"></center>
         <center><h2 id="output1"></h2></center>
         <center><p id="output2"></p></center>
-
+        
 
     <script language="javascript">
         //Array for users
@@ -133,7 +133,7 @@
              
         function Login(form) {
             //Make object of User        
-            let user = new User(form.userID.value, form.password.value);
+            let user = new User(form.userID.value.trim(), form.password.value.trim());
 
             if(createAccount){
                 if(!user.CheckUserInDB() && user.ValidateUserID() && user.ValidatePassword()){
