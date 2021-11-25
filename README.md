@@ -1,2 +1,2 @@
-# JavaScriptLoginGrupp3
+# JavaScriptLogin
 Javascript fil och färdig html sida med embedded javascript
